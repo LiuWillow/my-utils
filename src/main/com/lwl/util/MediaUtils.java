@@ -16,9 +16,11 @@ import java.util.Map;
  * @description 媒体文件操作相关工具类
  */
 public class MediaUtils {
-    private MediaUtils(){}
+    private MediaUtils() {
+    }
+
     /**
-     * 将图片压缩到为指定大小，返回压缩后的byte流和图片大小
+     * 将图片等比压缩到为指定大小，返回压缩后的byte流和图片大小
      */
     public static Map<String, Object> compressImage(MultipartFile multipartFile, int width, int height) {
         try {
@@ -32,21 +34,16 @@ public class MediaUtils {
                 int oldWidth = ((BufferedImage) src).getWidth();
                 if (oldHeight > oldWidth) {
                     // 如果height比较大，就以高为准
-
                     float rate = height / (oldHeight * 1F);
                     width = (int) (rate * oldWidth);
-                    image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-                    image.getGraphics().drawImage(src.getScaledInstance(width, height, Image.SCALE_SMOOTH),
-                            0, 0,null);
-
                 } else {
                     // 如果width比较大，就以款宽为准
                     float rate = width / (oldWidth * 1F);
                     height = (int) (rate * oldHeight);
-                    image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-                    image.getGraphics().drawImage(src.getScaledInstance(width, height, Image.SCALE_SMOOTH),
-                            0, 0,null);
                 }
+                image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                image.getGraphics().drawImage(src.getScaledInstance(width, height, Image.SCALE_SMOOTH),
+                        0, 0, null);
             }
 
             //获取图片后缀
